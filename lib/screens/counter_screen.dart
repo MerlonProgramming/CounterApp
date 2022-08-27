@@ -9,6 +9,22 @@ class CounterScreen extends StatefulWidget {
 
 class _CounterScreenState extends State<CounterScreen> {
   int counter = 10;
+
+  void increise() {
+    counter++;
+    setState(() {});
+  }
+
+  void descrease() {
+    counter--;
+    setState(() {});
+  }
+
+  void resetZero() {
+    counter = 0;
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     const fontSize30 = TextStyle(fontSize: 25);
@@ -34,26 +50,43 @@ class _CounterScreenState extends State<CounterScreen> {
           ),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-        floatingActionButton: CustomFloatingActions());
+        floatingActionButton: CustomFloatingActions(
+          increiseFn: increise,
+          descreaseFn: descrease,
+          resetZeroFn: resetZero,
+        ));
   }
 }
 
 class CustomFloatingActions extends StatelessWidget {
+  final Function increiseFn;
+  final Function descreaseFn;
+  final Function resetZeroFn;
+
   const CustomFloatingActions({
     Key? key,
+    required this.increiseFn,
+    required this.descreaseFn,
+    required this.resetZeroFn,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: const [
+      children: [
         FloatingActionButton(
-            child: Icon(Icons.exposure_plus_1_outlined), onPressed: null),
+          child: const Icon(Icons.exposure_plus_1_outlined),
+          onPressed: () => increiseFn(),
+        ),
         FloatingActionButton(
-            child: Icon(Icons.exposure_zero_outlined), onPressed: null),
+          child: const Icon(Icons.exposure_zero_outlined),
+          onPressed: () => resetZeroFn(),
+        ),
         FloatingActionButton(
-            child: Icon(Icons.exposure_minus_1_outlined), onPressed: null),
+          child: const Icon(Icons.exposure_minus_1_outlined),
+          onPressed: () => descreaseFn(),
+        ),
       ],
     );
   }
